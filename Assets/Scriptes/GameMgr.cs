@@ -16,7 +16,7 @@ public class GameMgr : MonoBehaviour
     private int coins = 0;
     private int tempsave_mecprice = 0;
 
-    private GameObject gui;
+    private GameObject[] gui = new GameObject[2];
 
     private void Awake()
     {
@@ -129,7 +129,7 @@ public class GameMgr : MonoBehaviour
         Destroy(bullet);
     }
 
-    public IEnumerator TurretrUpgradeCilckEvent(GameObject my, GameObject turret, GameObject gui)
+    public IEnumerator TurretrUpgradeCilckEvent(GameObject my, GameObject turret, GameObject[] gui)
     {
         MecMgr mec = turret.GetComponent<MecMgr>();
         mec.stats.SetActive(false);
@@ -144,14 +144,15 @@ public class GameMgr : MonoBehaviour
             }
             else if (Input.GetMouseButtonDown(0))
             {
-                Destroy(gui);
+                for(int i=0; i<gui.Length; i++) Destroy(gui[i]);
                 mec.stats.SetActive(true);
                 if (mec.attackarea != null) mec.attackarea.SetActive(false);
                 end = true;
             }
             else if (Input.GetKeyDown(KeyCode.X))
             {
-                Destroy(turret);  Destroy(gui);
+                Destroy(turret);
+                for (int i = 0; i < gui.Length; i++) Destroy(gui[i]);
                 tempsave_mecprice = UI.GetComponent<UIMgr>().mecprice[mec.mectype - 1];
                 tempsave_mecprice = ((tempsave_mecprice * 50) / 100);
                 refund_turret();
@@ -186,11 +187,11 @@ public class GameMgr : MonoBehaviour
     {
         settextCoinUI(tempsave_mecprice);
     }
-    public GameObject getgui()
+    public GameObject[] getgui()
     {
         return gui;
     }
-    public void setgui(GameObject g)
+    public void setgui(GameObject[] g)
     {
         gui = g;
     }

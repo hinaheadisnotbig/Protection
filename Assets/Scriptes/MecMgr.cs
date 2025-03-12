@@ -34,7 +34,7 @@ public class MecMgr : MonoBehaviour
         {
             if (!iscooltime && fireable)
             {
-                if(mectype == 3) yield return new WaitForSeconds(attackspeed/2);
+                if(mectype == 3) yield return new WaitForSeconds(0.5f);
                 if (ani != null) ani.SetBool("fire", true);
                 if (mectype != 3) dir = transform.forward;
                 GameObject bullet;

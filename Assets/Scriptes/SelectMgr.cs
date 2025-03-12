@@ -6,7 +6,7 @@ using static UnityEngine.GraphicsBuffer;
 
 public class SelectMgr : MonoBehaviour
 {
-    public GameObject turret_info;
+    public GameObject[] turret_info = new GameObject[2];
     public LayerMask turretmask;
     private GameObject target;
     private GameObject SelectedTurret;
@@ -35,8 +35,13 @@ public class SelectMgr : MonoBehaviour
                     
                     isClick = true;
                     GameMgr.Instance.mecUI(false);
-                    GameObject gui = Instantiate(turret_info, GameMgr.Instance.getturrets());
-                    gui.GetComponent<InfoMgr>().install = SelectedTurret.transform.gameObject;
+                    GameObject[] gui = new GameObject[2];
+                    for (int i = 0; i < gui.Length; i++)
+                    {
+                        gui[i] = Instantiate(turret_info[i], GameMgr.Instance.getturrets());
+                        gui[i].GetComponent<InfoMgr>().setinstall(SelectedTurret);
+
+                    }
                     GameMgr.Instance.StartCoroutine(GameMgr.Instance.TurretrUpgradeCilckEvent(gameObject, SelectedTurret, gui));
                     SelectedTurret = null;
                     gameObject.SetActive(false);

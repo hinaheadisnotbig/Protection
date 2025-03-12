@@ -13,7 +13,7 @@ public class UIMgr : MonoBehaviour
         1000,
         2500,
     };
-    public GameObject gui_prefab;
+    public GameObject[] gui_prefab = new GameObject[2];
     private Image[] btn;
     private GameObject[] UI_basecamp = new GameObject[2];
     private GameObject mecpanel;
@@ -44,8 +44,12 @@ public class UIMgr : MonoBehaviour
         if (GameMgr.Instance.getcoins() >= mecprice[op])
         {
             GameObject install = Instantiate(mectype[op], GameMgr.Instance.getturrets());
-            GameObject gui = Instantiate(gui_prefab, GameMgr.Instance.getturrets());
-            gui.GetComponent<InfoMgr>().install = install;
+            GameObject[] gui = new GameObject[2];
+            for (int i = 0; i < gui.Length; i++)
+            {
+                gui[i] = Instantiate(gui_prefab[i], GameMgr.Instance.getturrets());
+                gui[i].GetComponent<InfoMgr>().setinstallanother(install);
+            }
             GameMgr.Instance.setgui(gui);
             GameMgr.Instance.settempsave_mecprice(mecprice[op]);
             GameMgr.Instance.settextCoinUI(-mecprice[op]);

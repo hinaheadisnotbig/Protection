@@ -50,14 +50,16 @@ public class InstallMgr : MonoBehaviour
             {
                 isClick = true;
                 SpawnMissleObj();
-                Destroy(target); Destroy(GameMgr.Instance.getgui());
+                Destroy(target);
+                for(int i=0; i<GameMgr.Instance.getgui().Length; i++) Destroy(GameMgr.Instance.getgui()[i]);
                 GameMgr.Instance.mecUI(true);
                 GameMgr.Instance.settempsave_mecprice(0);
             }
             else if (Input.GetKeyDown(KeyCode.X) && !isClick || target != null && isClick == false && Input.GetMouseButtonDown(0) && cubeColor.material.color == red)
             {
                 isClick = true;
-                Destroy(target); Destroy(GameMgr.Instance.getgui());
+                Destroy(target);
+                for (int i = 0; i < GameMgr.Instance.getgui().Length; i++) Destroy(GameMgr.Instance.getgui()[i]);
                 GameMgr.Instance.mecUI(true);
                 GameMgr.Instance.refund_turret();
                 GameMgr.Instance.settempsave_mecprice(0);
