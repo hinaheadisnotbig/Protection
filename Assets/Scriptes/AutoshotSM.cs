@@ -58,7 +58,7 @@ public class AutoshotSM : MonoBehaviour
     {
         if (target != null)
         {
-                target = null; 
+           target = null; 
         }
     }
 }

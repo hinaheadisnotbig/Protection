@@ -266,7 +266,7 @@ MonoBehaviour:
   stats: {fileID: 4255306768403653781}
   attackspeed: 2.5
   basedamage: 15
-  bulletspeed: 22
+  bulletspeed: 25
   range: 35
   ani: {fileID: 7877131032345248885}
 --- !u!95 &7877131032345248885
@@ -1385,7 +1385,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5830671059368693619, guid: f34402aeeee866648a891763f0c15758, type: 3}
       propertyPath: speed
-      value: 3
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5830671059368693619, guid: f34402aeeee866648a891763f0c15758, type: 3}
       propertyPath: spinpoint
@@ -1457,10 +1457,79 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 13
+  m_Radius: 10
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!4 &5973420360380564480 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6766959341188867916, guid: f34402aeeee866648a891763f0c15758, type: 3}
   m_PrefabInstance: {fileID: 1084465368145273676}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &5192541087024665880
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 5973420360380564480}
+    m_Modifications:
+    - target: {fileID: 6809295582367521457, guid: d3e0caa96cbcddb45bb81b210bdd59aa, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6809295582367521457, guid: d3e0caa96cbcddb45bb81b210bdd59aa, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6809295582367521457, guid: d3e0caa96cbcddb45bb81b210bdd59aa, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6809295582367521457, guid: d3e0caa96cbcddb45bb81b210bdd59aa, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6809295582367521457, guid: d3e0caa96cbcddb45bb81b210bdd59aa, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6809295582367521457, guid: d3e0caa96cbcddb45bb81b210bdd59aa, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.183
+      objectReference: {fileID: 0}
+    - target: {fileID: 6809295582367521457, guid: d3e0caa96cbcddb45bb81b210bdd59aa, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6809295582367521457, guid: d3e0caa96cbcddb45bb81b210bdd59aa, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6809295582367521457, guid: d3e0caa96cbcddb45bb81b210bdd59aa, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6809295582367521457, guid: d3e0caa96cbcddb45bb81b210bdd59aa, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6809295582367521457, guid: d3e0caa96cbcddb45bb81b210bdd59aa, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6809295582367521457, guid: d3e0caa96cbcddb45bb81b210bdd59aa, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6809295582367521457, guid: d3e0caa96cbcddb45bb81b210bdd59aa, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6809295582367521457, guid: d3e0caa96cbcddb45bb81b210bdd59aa, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6809295582367521469, guid: d3e0caa96cbcddb45bb81b210bdd59aa, type: 3}
+      propertyPath: m_Name
+      value: turret attack_area
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d3e0caa96cbcddb45bb81b210bdd59aa, type: 3}

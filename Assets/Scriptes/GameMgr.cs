@@ -133,6 +133,7 @@ public class GameMgr : MonoBehaviour
     {
         MecMgr mec = turret.GetComponent<MecMgr>();
         mec.stats.SetActive(false);
+        if (mec.attackarea != null) mec.attackarea.SetActive(true);
         yield return new WaitForSeconds(0.1f);
         bool end = false;
         while (!end)
@@ -145,6 +146,7 @@ public class GameMgr : MonoBehaviour
             {
                 Destroy(gui);
                 mec.stats.SetActive(true);
+                if (mec.attackarea != null) mec.attackarea.SetActive(false);
                 end = true;
             }
             else if (Input.GetKeyDown(KeyCode.X))

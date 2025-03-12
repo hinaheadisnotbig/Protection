@@ -7,6 +7,7 @@ public class MecMgr : MonoBehaviour
 {
     public int mectype = 1;
     public Transform[] gunshotplace;
+    public GameObject attackarea;
     public GameObject ball;
     public GameObject stats;
     public float attackspeed = 1f;
@@ -22,6 +23,7 @@ public class MecMgr : MonoBehaviour
 
     private void Start()
     {
+        if (attackarea != null) attackarea.SetActive(false);
         StartCoroutine(coupdate());
     }
 
