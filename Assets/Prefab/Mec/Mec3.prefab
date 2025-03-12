@@ -262,6 +262,7 @@ MonoBehaviour:
   mectype: 3
   gunshotplace:
   - {fileID: 1752178705189527805}
+  attackarea: {fileID: 1617046091144810405}
   ball: {fileID: 8894240196486183145, guid: bf8b2820dc590e647b96e4f6c05343ae, type: 3}
   stats: {fileID: 4255306768403653781}
   attackspeed: 2.5
@@ -1385,7 +1386,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5830671059368693619, guid: f34402aeeee866648a891763f0c15758, type: 3}
       propertyPath: speed
-      value: 9
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5830671059368693619, guid: f34402aeeee866648a891763f0c15758, type: 3}
       propertyPath: spinpoint
@@ -1477,7 +1478,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6809295582367521457, guid: d3e0caa96cbcddb45bb81b210bdd59aa, type: 3}
       propertyPath: m_LocalScale.x
-      value: 20
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 6809295582367521457, guid: d3e0caa96cbcddb45bb81b210bdd59aa, type: 3}
       propertyPath: m_LocalScale.y
@@ -1485,7 +1486,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6809295582367521457, guid: d3e0caa96cbcddb45bb81b210bdd59aa, type: 3}
       propertyPath: m_LocalScale.z
-      value: 20
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 6809295582367521457, guid: d3e0caa96cbcddb45bb81b210bdd59aa, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1533,3 +1534,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d3e0caa96cbcddb45bb81b210bdd59aa, type: 3}
+--- !u!1 &1617046091144810405 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6809295582367521469, guid: d3e0caa96cbcddb45bb81b210bdd59aa, type: 3}
+  m_PrefabInstance: {fileID: 5192541087024665880}
+  m_PrefabAsset: {fileID: 0}

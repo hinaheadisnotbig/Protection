@@ -11,12 +11,12 @@ public class BallMov : MonoBehaviour
     private Vector3 dir;
     private void Start()
     {
-        StartCoroutine(removeobj());
         mecMgr = transform.parent.GetComponent<MecMgr>();
         damage = mecMgr.basedamage;
         movspeed = mecMgr.bulletspeed;
         this.range = mecMgr.range;
         dir = mecMgr.getdir();
+        StartCoroutine(removeobj());
         //transform.position += transform.TransformDirection(-dir) * 1.5f;
     }
     // Update is called once per frame
