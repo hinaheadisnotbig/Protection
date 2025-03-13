@@ -46,7 +46,7 @@ public class SelectMgr : MonoBehaviour
                     SelectedTurret = null;
                     gameObject.SetActive(false);
                 }
-            } else transform.position = hitTarget.point + new Vector3(0, 10, 0);
+            } else transform.position = hitTarget.point + new Vector3(0, -10, 0);
             yield return null;
         }
     }

@@ -9,6 +9,7 @@ public class CameraMgr : MonoBehaviour
     float camspeed = 8f;
     Vector3 mov = Vector3.zero;
     private int ang = 0;
+    private int altitude = 0;
     void Update()
     {
         if(Input.GetKey(KeyCode.A))
@@ -51,6 +52,12 @@ public class CameraMgr : MonoBehaviour
             if (ang >= 360) ang = 0;
             transform.rotation = Quaternion.Euler(new Vector3(60, ang, 0));
         }
-       
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            altitude += 10;
+            transform.position = new Vector3(transform.position.x, altitude, transform.position.z);
+            if (altitude >= 30) altitude = 0;  
+        }
+
     }
 }

@@ -11,6 +11,7 @@ public class GameMgr : MonoBehaviour
     private Transform turrets;
     private Transform Enemys;
     public GameObject[] enemy;
+    public Transform[] enemyspawnloactions;
 
     [SerializeField]
     private int coins = 0;
@@ -50,9 +51,9 @@ public class GameMgr : MonoBehaviour
         yield return new WaitForSeconds(2.5f);
         while(true)
         {
-            if(Input.GetKeyDown(KeyCode.Alpha1)) Instantiate(enemy[0], new Vector3(0.389560729f, 1.00000095f, -22.6599998f), Quaternion.identity, Enemys);
-            if (Input.GetKeyDown(KeyCode.Alpha2)) Instantiate(enemy[1], new Vector3(0.389560729f, 1.00000095f, -22.6599998f), Quaternion.identity, Enemys);
-            if (Input.GetKeyDown(KeyCode.Alpha3)) Instantiate(enemy[2], new Vector3(0.389560729f, 1.00000095f, -22.6599998f), Quaternion.identity, Enemys);
+            if(Input.GetKeyDown(KeyCode.Alpha1)) Instantiate(enemy[0], enemyspawnloactions[0].position, Quaternion.identity, Enemys);
+            if (Input.GetKeyDown(KeyCode.Alpha2)) Instantiate(enemy[1], enemyspawnloactions[0].position, Quaternion.identity, Enemys);
+            if (Input.GetKeyDown(KeyCode.Alpha3)) Instantiate(enemy[2], enemyspawnloactions[0].position, Quaternion.identity, Enemys);
             /*yield return new WaitForSeconds(5f);
             Instantiate(enemy[0], new Vector3(0.389560729f, 1.00000095f, -22.6599998f), Quaternion.identity,Enemys);
             yield return new WaitForSeconds(7f);*/

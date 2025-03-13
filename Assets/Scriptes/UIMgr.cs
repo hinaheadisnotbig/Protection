@@ -9,7 +9,9 @@ using Newtonsoft.Json.Linq;
 
 public class UIMgr : MonoBehaviour
 {
+    public bool isabletopview = true;
     public GameObject Turretshop;
+    public GameObject TopView;
     public GameObject[] mectype;
     private int[] mecprice = { 
         1000,
@@ -44,6 +46,7 @@ public class UIMgr : MonoBehaviour
         }
 
         mecpanel = transform.gameObject;//transform.GetChild(2).gameObject;
+        if (!isabletopview) TopView.SetActive(false);
     }
 
     public void updatedUIbasecamp()

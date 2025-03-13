@@ -448,8 +448,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3458403731603104219}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.01813984, y: -0.07999992, z: -1.5608997}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.01813984, y: -0.07999992, z: -1.5609}
   m_LocalScale: {x: 0.20150833, y: 0.19905023, z: 0.9207371}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -530,6 +530,7 @@ GameObject:
   - component: {fileID: 3471064722557990290}
   - component: {fileID: 8457966281663888217}
   - component: {fileID: 1803286974976073436}
+  - component: {fileID: 2225686501817377588}
   m_Layer: 0
   m_Name: Mec4
   m_TagString: turret
@@ -592,9 +593,29 @@ MonoBehaviour:
   stats: {fileID: 5181649919584849287}
   attackspeed: 1.5
   basedamage: 7
-  bulletspeed: 8
+  bulletspeed: 12
   range: 15
-  ani: {fileID: 0}
+  ani: {fileID: 2225686501817377588}
+--- !u!95 &2225686501817377588
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3903059342905073416}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5848ed435dc554f4999c133e6f7e6893, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &4013832133629495433
 GameObject:
   m_ObjectHideFlags: 0
@@ -1287,8 +1308,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7658101450547025343}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.01813984, y: -0.07999992, z: -0.89990044}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.01813984, y: -0.07999992, z: -0.8999004}
   m_LocalScale: {x: 0.2821939, y: 0.27875158, z: 0.7562022}
   m_ConstrainProportionsScale: 0
   m_Children: []
