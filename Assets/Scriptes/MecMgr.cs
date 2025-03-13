@@ -6,6 +6,7 @@ using UnityEngine;
 public class MecMgr : MonoBehaviour
 {
     public int mectype = 1;
+    public bool hasautoattack = false;
     public Transform[] gunshotplace;
     public GameObject attackarea;
     public GameObject ball;
@@ -34,9 +35,9 @@ public class MecMgr : MonoBehaviour
         {
             if (!iscooltime && fireable)
             {
-                if(mectype == 3) yield return new WaitForSeconds(0.5f);
+                if(hasautoattack) yield return new WaitForSeconds(0.5f);
+                else if (!hasautoattack) dir = transform.forward;
                 if (ani != null) ani.SetBool("fire", true);
-                if (mectype != 3) dir = transform.forward;
                 GameObject bullet;
                 if (gunshotplace.Length >= 2)
                 {

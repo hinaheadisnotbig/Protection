@@ -52,6 +52,7 @@ public class InstallMgr : MonoBehaviour
                 SpawnMissleObj();
                 Destroy(target);
                 for(int i=0; i<GameMgr.Instance.getgui().Length; i++) Destroy(GameMgr.Instance.getgui()[i]);
+                if (GameMgr.Instance != null) GameMgr.Instance.setisinstallmode(false);
                 GameMgr.Instance.mecUI(true);
                 GameMgr.Instance.settempsave_mecprice(0);
             }
@@ -60,6 +61,7 @@ public class InstallMgr : MonoBehaviour
                 isClick = true;
                 Destroy(target);
                 for (int i = 0; i < GameMgr.Instance.getgui().Length; i++) Destroy(GameMgr.Instance.getgui()[i]);
+                if (GameMgr.Instance != null) GameMgr.Instance.setisinstallmode(false);
                 GameMgr.Instance.mecUI(true);
                 GameMgr.Instance.refund_turret();
                 GameMgr.Instance.settempsave_mecprice(0);
@@ -82,6 +84,7 @@ public class InstallMgr : MonoBehaviour
     }
     IEnumerator cospawnTarget()
     {
+        if(GameMgr.Instance != null) GameMgr.Instance.setisinstallmode(true);
         isinstallable = false;
         yield return new WaitForSeconds(0.1f);
         StartCoroutine(coupdate());

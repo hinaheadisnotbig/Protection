@@ -44,7 +44,7 @@ public class BallMov : MonoBehaviour
     {
         if (other.CompareTag("none"))
         {
-    
+            Debug.Log("???");
             Destroy(gameObject);
         }
     }

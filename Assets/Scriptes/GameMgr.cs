@@ -18,6 +18,8 @@ public class GameMgr : MonoBehaviour
 
     private GameObject[] gui = new GameObject[2];
 
+    private bool isinstallmode = false;
+
     private void Awake()
     {
         if (null == instance) { 
@@ -153,7 +155,7 @@ public class GameMgr : MonoBehaviour
             {
                 Destroy(turret);
                 for (int i = 0; i < gui.Length; i++) Destroy(gui[i]);
-                tempsave_mecprice = UI.GetComponent<UIMgr>().mecprice[mec.mectype - 1];
+                tempsave_mecprice = UI.GetComponent<UIMgr>().getmecprice()[mec.mectype - 1];
                 tempsave_mecprice = ((tempsave_mecprice * 50) / 100);
                 refund_turret();
                 tempsave_mecprice = 0;
@@ -194,5 +196,14 @@ public class GameMgr : MonoBehaviour
     public void setgui(GameObject[] g)
     {
         gui = g;
+    }
+
+    public bool getisinstallmode()
+    {
+        return isinstallmode;
+    }
+    public void setisinstallmode(bool b)
+    {
+        isinstallmode = b;
     }
 }

@@ -244,7 +244,7 @@ GameObject:
   - component: {fileID: 1583117614200503260}
   - component: {fileID: 7325896888247053187}
   - component: {fileID: 1193573303560386625}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Mec1
   m_TagString: turret
   m_Icon: {fileID: 0}
@@ -727,7 +727,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3910063820766439499}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: gunshotplace
   m_TagString: Untagged
   m_Icon: {fileID: 0}

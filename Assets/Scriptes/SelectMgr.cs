@@ -28,7 +28,7 @@ public class SelectMgr : MonoBehaviour
         {
             Ray rayTarget = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hitTarget;
-            if (Physics.Raycast(rayTarget, out hitTarget, Mathf.Infinity, turretmask))
+            if (Physics.Raycast(rayTarget, out hitTarget, Mathf.Infinity, turretmask) && !GameMgr.Instance.getisinstallmode())
             {
                 transform.position = hitTarget.point + new Vector3(0, 0.75f, 0);
                 if (Input.GetMouseButtonDown(0) && isClick == false && SelectedTurret != null) {

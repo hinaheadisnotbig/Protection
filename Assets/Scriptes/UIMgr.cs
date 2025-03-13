@@ -5,13 +5,18 @@ using TMPro;
 using UnityEngine.UI;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using Unity.VisualScripting;
+using Newtonsoft.Json.Linq;
 
 public class UIMgr : MonoBehaviour
 {
+    public GameObject Turretshop;
     public GameObject[] mectype;
-    public int[] mecprice = { 
+    private int[] mecprice = { 
         1000,
         2500,
+        4750,
+        3000,
+        0
     };
     public GameObject[] gui_prefab = new GameObject[2];
     private Image[] btn;
@@ -20,6 +25,7 @@ public class UIMgr : MonoBehaviour
     private TMP_Text txt;
     private Color gray;
     private Color white;
+    private TMP_Text[] btnprice_txt;
 
 
     private void Awake()
@@ -29,7 +35,14 @@ public class UIMgr : MonoBehaviour
         btn = new Image[mecprice.Length];
         txt = transform.GetChild(0).GetChild(0).gameObject.GetComponent<TMP_Text>();
         for (int i = 0; i < UI_basecamp.Length; i++) UI_basecamp[i] = transform.GetChild(1).GetChild(0).GetChild(i+1).gameObject;
-        for (int i = 0; i < btn.Length; i++) btn[i] = transform.GetChild(2).GetChild(i).gameObject.GetComponent<Image>();
+        for (int i = 0; i < btn.Length; i++) btn[i] = Turretshop.transform.GetChild(i).GetChild(0).gameObject.GetComponent<Image>();
+        btnprice_txt = new TMP_Text[mecprice.Length];
+        for (int i = 0; i < btnprice_txt.Length; i++)
+        {
+            btnprice_txt[i] = btn[i].transform.GetChild(0).GetComponent<TMP_Text>();
+            btnprice_txt[i].text = mecprice[i].ToString() + " Coins";
+        }
+
         mecpanel = transform.gameObject;//transform.GetChild(2).gameObject;
     }
 
@@ -72,5 +85,10 @@ public class UIMgr : MonoBehaviour
     public void setactivemecUI(bool b)
     {
         mecpanel.SetActive(b);
+    }
+
+    public int[] getmecprice()
+    {
+        return mecprice;
     }
 }
