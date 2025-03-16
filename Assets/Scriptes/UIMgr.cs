@@ -16,8 +16,8 @@ public class UIMgr : MonoBehaviour
     private int[] mecprice = { 
         1000,
         2500,
-        4750,
         3000,
+        4750,
         0
     };
     public GameObject[] gui_prefab = new GameObject[2];

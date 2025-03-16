@@ -591,8 +591,8 @@ MonoBehaviour:
   attackarea: {fileID: 3784604854741662337}
   ball: {fileID: 8894240196486183145, guid: 320176619e8c7e24e9d7dbec94bd99d1, type: 3}
   stats: {fileID: 5181649919584849287}
-  attackspeed: 1.5
-  basedamage: 7
+  attackspeed: 1.8
+  basedamage: 9
   bulletspeed: 12
   range: 15
   ani: {fileID: 2225686501817377588}

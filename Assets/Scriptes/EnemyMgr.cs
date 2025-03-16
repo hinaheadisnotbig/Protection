@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 using TMPro;
+using UnityEditor.SceneManagement;
 
 public class EnemyMgr : MonoBehaviour
 {
@@ -31,6 +32,7 @@ public class EnemyMgr : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         dir = agent.destination;
         agent.speed = movspeed;
+        maxhealth *= (int)(1 +GameMgr.Instance.getmagnific() * (1 + GameMgr.Instance.getstage()/5));
         health = maxhealth;
         updateHpbar(health);
     }
@@ -63,6 +65,7 @@ public class EnemyMgr : MonoBehaviour
         if (hp == null) return;
         if (health <= 0)
         {
+           // GameMgr.Instance.leftenemy--;
             GameMgr.Instance.settextCoinUI(given_money);
             Destroy(gameObject);
         }

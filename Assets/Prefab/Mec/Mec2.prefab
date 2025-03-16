@@ -57,14 +57,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mectype: 2
+  hasautoattack: 0
   gunshotplace:
   - {fileID: 363578342763902588}
   - {fileID: 142272087164279420}
   attackarea: {fileID: 2756174414075758797}
   ball: {fileID: 8894240196486183145, guid: 320176619e8c7e24e9d7dbec94bd99d1, type: 3}
   stats: {fileID: 7949729017474116282}
-  attackspeed: 0.3
-  basedamage: 1.7
+  attackspeed: 0.35
+  basedamage: 3
   bulletspeed: 10
   range: 2
   ani: {fileID: 1477389730607216584}

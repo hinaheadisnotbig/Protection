@@ -683,7 +683,7 @@ MonoBehaviour:
   hpbar: {fileID: 4681016822426196360}
   maxhealth: 20
   health: 20
-  movspeed: 1.2
+  movspeed: 1
   attackdamage: 35
   given_money: 200
 --- !u!54 &4711718050662276746

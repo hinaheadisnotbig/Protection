@@ -1,6 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
+using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static UnityEngine.GraphicsBuffer;
 
 public class GameMgr : MonoBehaviour
@@ -8,26 +13,38 @@ public class GameMgr : MonoBehaviour
     private static GameMgr instance;
     public GameObject UI;
     public GameObject basecamp;
+    public TMP_Text[] LevelSM;
+    
     private Transform turrets;
     private Transform Enemys;
+
     public GameObject[] enemy;
     public Transform[] enemyspawnloactions;
+    public int leftenemy = 0;
+    private GameObject[] gui = new GameObject[2];
 
     [SerializeField]
     private int coins = 0;
     private int tempsave_mecprice = 0;
 
-    private GameObject[] gui = new GameObject[2];
 
     private bool isinstallmode = false;
+
+    private int stage = 1;
+    private int wave = 0;
+    private int maxwave = 0;
+    private float magnific = 1;
+
+    [SerializeField]
+    private int roundtimer = 0;
 
     private void Awake()
     {
         if (null == instance) { 
             instance = this;
             DontDestroyOnLoad(gameObject);
-
-            settingsystem();
+            if (SceneManager.GetActiveScene().name.Equals("Title")) return;
+            else settingsystem();
         } else
         {
             Destroy(gameObject);
@@ -46,19 +63,104 @@ public class GameMgr : MonoBehaviour
     IEnumerator GameStart()
     {
         yield return new WaitForSeconds(0.1f);
-        settextCoinUI(5000);
-        setbasecampUI(200);
-        yield return new WaitForSeconds(2.5f);
-        while(true)
+        switch (stage)
         {
-            if(Input.GetKeyDown(KeyCode.Alpha1)) Instantiate(enemy[0], enemyspawnloactions[0].position, Quaternion.identity, Enemys);
-            if (Input.GetKeyDown(KeyCode.Alpha2)) Instantiate(enemy[1], enemyspawnloactions[0].position, Quaternion.identity, Enemys);
-            if (Input.GetKeyDown(KeyCode.Alpha3)) Instantiate(enemy[2], enemyspawnloactions[0].position, Quaternion.identity, Enemys);
-            /*yield return new WaitForSeconds(5f);
-            Instantiate(enemy[0], new Vector3(0.389560729f, 1.00000095f, -22.6599998f), Quaternion.identity,Enemys);
-            yield return new WaitForSeconds(7f);*/
-            yield return null;
+            case 1: {
+                    settextCoinUI(1000);
+                    setbasecampUI(200);
+                    roundtimer = 30;
+                    leftenemy = 7;
+                    wave = 0;
+                    maxwave = 1;
+                    magnific = 0.8f;
+                    break; }
+            case 2:
+                {
+                    settextCoinUI(1000);
+                    roundtimer = 30;
+                    leftenemy = 7;
+                    wave = 0;
+                    maxwave = 1;
+                    magnific = 0.8f;
+                    break;
+                }
+            case 3:
+                {
+                    settextCoinUI(2500);
+                    roundtimer = 30;
+                    leftenemy = 5;
+                    wave = 0;
+                    maxwave = 2;
+                    magnific = 0.8f;
+                    break;
+                }
+            case 4:
+                {
+                    settextCoinUI(2500);
+                    roundtimer = 30;
+                    leftenemy = 10;
+                    wave = 0;
+                    maxwave = 1;
+                    magnific = 1f;
+                    break;
+                }
+            default: {
+                    settextCoinUI(1000);
+                    roundtimer = 15;
+                    leftenemy = 10;
+                    wave = 0;
+                    maxwave = 1;
+                    break; }
         }
+        LevelSM[0].text = "Stage " + stage;
+        while (roundtimer >= 0)
+        {
+            LevelSM[1].text = "Next Wave : " + roundtimer;
+            yield return new WaitForSeconds(1f);
+            roundtimer--;
+        }
+        // LevelSM[1].text = "Wave " + wave + "/" + maxwave;
+        LevelSM[1].text = "Start Wave";
+        yield return new WaitForSeconds(0.5f);
+        while (wave < maxwave)
+        {
+            wave++;
+            LevelSM[1].text = "Wave " + wave + "/" + maxwave;
+            while (leftenemy > 0)
+            {
+                enemySpawnSM(0);
+                yield return new WaitForSeconds(3.5f);
+                yield return new WaitForSeconds(0.3f);
+                if (stage >= 2) {
+                    enemySpawnSM(1);
+                    yield return new WaitForSeconds(2.5f);
+                }
+                if (stage >= 4) {
+                    enemySpawnSM(2);
+                    yield return new WaitForSeconds(2.8f);
+                }
+                if (stage >= 6) {
+                    enemySpawnSM(3);
+                    yield return new WaitForSeconds(2.7f);
+                }
+                if (stage >= 8) {
+                    enemySpawnSM(4);
+                    yield return new WaitForSeconds(2.6f);
+                }
+                yield return null;
+            }
+            yield return null;
+            if(wave < maxwave)yield return new WaitForSeconds(3f);
+        }
+        stage++;
+        StartCoroutine(GameStart());
+        
+    }
+
+    private void enemySpawnSM(int num) //Min 0 ~ Max 5 index
+    {
+        leftenemy--;
+        Instantiate(enemy[num], enemyspawnloactions[0].position, Quaternion.identity, Enemys);
     }
 
     public static GameMgr Instance
@@ -206,5 +308,13 @@ public class GameMgr : MonoBehaviour
     public void setisinstallmode(bool b)
     {
         isinstallmode = b;
+    }
+    public float getmagnific()
+    {
+        return magnific;
+    }
+    public int getstage()
+    {
+        return stage;
     }
 }

@@ -28,7 +28,7 @@ public class BallMov : MonoBehaviour
     IEnumerator removeobj()
     {
         yield return new WaitForSeconds(range);
-        Debug.Log("»ç¶óÁü");
+        //Debug.Log("»ç¶óÁü");
         Destroy(gameObject);
     }
 
@@ -44,7 +44,7 @@ public class BallMov : MonoBehaviour
     {
         if (other.CompareTag("none"))
         {
-            Debug.Log("???");
+            //Debug.Log("???");
             Destroy(gameObject);
         }
     }
