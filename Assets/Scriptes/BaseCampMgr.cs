@@ -30,7 +30,7 @@ public class BaseCampMgr : MonoBehaviour
         if (hp == null) return;
         if (health <= 0)
         {
-            
+            if (GameMgr.Instance != null) GameMgr.Instance.Gameover();
         }
         hp.fillAmount = (float)health / (float)maxhealth;
         hp_txt.text = string.Format("{0}/{1}", health, maxhealth);

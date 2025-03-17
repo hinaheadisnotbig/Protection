@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static UnityEngine.GraphicsBuffer;
@@ -38,28 +37,55 @@ public class GameMgr : MonoBehaviour
     [SerializeField]
     private int roundtimer = 0;
 
+    private bool isgameview = false;
+
     private void Awake()
     {
         if (null == instance) { 
             instance = this;
             DontDestroyOnLoad(gameObject);
-            if (SceneManager.GetActiveScene().name.Equals("Title")) return;
-            else settingsystem();
+            SceneManager.sceneLoaded += LoadedsceneEvent;
+            Screen.SetResolution(1920, 1080, FullScreenMode.Windowed);
         } else
         {
             Destroy(gameObject);
         }
     }
 
-    private void settingsystem()
+    public void Gameover()
     {
-        if(turrets == null) turrets = GameObject.Find("Turrets").gameObject.transform;
-        if(Enemys == null)  Enemys = GameObject.Find("Enemys").gameObject.transform;
+        isgameview = false;
+        SceneManager.LoadScene("Title");
+        gameObject.SetActive(false);
+    }
+   
+    private void LoadedsceneEvent(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log(scene.name + "으로 변경되었습니다.");
+        if (SceneManager.GetActiveScene().name.Equals("SampleScene"))
+        {
+            gameObject.SetActive(true);
+            isgameview = true;
+            unitgameSystem();
+        }
+        else
+        {
+            isgameview = false;
+            gameObject.SetActive(false);
+        }
+    }
+    private void unitgameSystem()
+    {
+        if (turrets == null) turrets = GameObject.Find("Turrets").gameObject.transform;
+        if (Enemys == null) Enemys = GameObject.Find("Enemys").gameObject.transform;
+        if (LevelSM[0] == null) LevelSM[0] = GameObject.Find("stage_txt").GetComponent<TMP_Text>();
+        if (LevelSM[1] == null) LevelSM[1] = GameObject.Find("round_txt").GetComponent<TMP_Text>();
+        if (enemyspawnloactions[0] == null) enemyspawnloactions[0] = GameObject.Find("Enemy SpawnPlace").transform;
+        coins = 0; tempsave_mecprice = 0; roundtimer = 0;
+        stage = 1; wave = 0; maxwave = 0; magnific = 1; isinstallmode = false;
 
         StartCoroutine(GameStart());
-
     }
-
     IEnumerator GameStart()
     {
         yield return new WaitForSeconds(0.1f);
@@ -77,7 +103,7 @@ public class GameMgr : MonoBehaviour
             case 2:
                 {
                     settextCoinUI(1000);
-                    roundtimer = 30;
+                    roundtimer = 15;
                     leftenemy = 7;
                     wave = 0;
                     maxwave = 1;
@@ -87,7 +113,7 @@ public class GameMgr : MonoBehaviour
             case 3:
                 {
                     settextCoinUI(2500);
-                    roundtimer = 30;
+                    roundtimer = 15;
                     leftenemy = 5;
                     wave = 0;
                     maxwave = 2;
@@ -97,7 +123,7 @@ public class GameMgr : MonoBehaviour
             case 4:
                 {
                     settextCoinUI(2500);
-                    roundtimer = 30;
+                    roundtimer = 15;
                     leftenemy = 10;
                     wave = 0;
                     maxwave = 1;
@@ -113,23 +139,27 @@ public class GameMgr : MonoBehaviour
                     break; }
         }
         LevelSM[0].text = "Stage " + stage;
-        while (roundtimer >= 0)
+        while (roundtimer >= 0 && isgameview)
         {
             LevelSM[1].text = "Next Wave : " + roundtimer;
             yield return new WaitForSeconds(1f);
             roundtimer--;
+            if (!isgameview) yield break;
         }
+        roundtimer = 0;
         // LevelSM[1].text = "Wave " + wave + "/" + maxwave;
         LevelSM[1].text = "Start Wave";
-        yield return new WaitForSeconds(0.5f);
-        while (wave < maxwave)
+        yield return new WaitForSeconds(1.5f);
+        while (wave < maxwave && isgameview)
         {
             wave++;
             LevelSM[1].text = "Wave " + wave + "/" + maxwave;
-            while (leftenemy > 0)
+            if (!isgameview) yield break;
+            while (leftenemy > 0 && isgameview)
             {
                 enemySpawnSM(0);
                 yield return new WaitForSeconds(3.5f);
+                if (!isgameview) yield break;
                 yield return new WaitForSeconds(0.3f);
                 if (stage >= 2) {
                     enemySpawnSM(1);
@@ -159,6 +189,7 @@ public class GameMgr : MonoBehaviour
 
     private void enemySpawnSM(int num) //Min 0 ~ Max 5 index
     {
+        if (!isgameview) return;
         leftenemy--;
         Instantiate(enemy[num], enemyspawnloactions[0].position, Quaternion.identity, Enemys);
     }
@@ -227,7 +258,7 @@ public class GameMgr : MonoBehaviour
         BallMov ballmov = bullet.GetComponent<BallMov>();
         EnemyMgr enemymgr = my.GetComponent<EnemyMgr>();
         float takendmg = ballmov.getdamage();
-        int enemyhealth = enemymgr.health;
+        float enemyhealth = (enemymgr.health);
         int cal = (int)(enemyhealth - takendmg);
         enemymgr.health = cal;
         enemymgr.updateHpbar(cal);
@@ -241,7 +272,7 @@ public class GameMgr : MonoBehaviour
         if (mec.attackarea != null) mec.attackarea.SetActive(true);
         yield return new WaitForSeconds(0.1f);
         bool end = false;
-        while (!end)
+        while (!end && isgameview)
         {
             if (Input.GetKeyDown(KeyCode.F))
             {

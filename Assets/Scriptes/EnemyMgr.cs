@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 using TMPro;
-using UnityEditor.SceneManagement;
+
 
 public class EnemyMgr : MonoBehaviour
 {

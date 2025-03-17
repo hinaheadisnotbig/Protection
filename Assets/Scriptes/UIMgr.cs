@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using Unity.VisualScripting;
 using Newtonsoft.Json.Linq;
+using UnityEngine.SceneManagement;
 
 public class UIMgr : MonoBehaviour
 {
@@ -93,5 +94,13 @@ public class UIMgr : MonoBehaviour
     public int[] getmecprice()
     {
         return mecprice;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene("Title");
+        }
     }
 }
