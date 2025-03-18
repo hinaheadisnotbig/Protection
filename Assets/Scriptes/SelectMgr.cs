@@ -59,4 +59,8 @@ public class SelectMgr : MonoBehaviour
            // Debug.Log(SelectedTurret);
         }
     }
+    private void OnTriggerExit(Collider other)
+    {
+        SelectedTurret = null;
+    }
 }

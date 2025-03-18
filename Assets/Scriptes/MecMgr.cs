@@ -1,20 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class MecMgr : MonoBehaviour
 {
-    public int mectype = 1;
+    public int mectype = 0;
     public bool hasautoattack = false;
     public Transform[] gunshotplace;
     public GameObject attackarea;
     public GameObject ball;
     public GameObject stats;
-    public float attackspeed = 1f;
-    public float basedamage = 2.5f;
-    public float bulletspeed = 5f;
-    public float range = 3f;
+    public int upgradelevel = 0;
+    public int maxupgradelevel = 0;
+    private turretUpgradeInfo turretinfo;
+    public float attackspeed;
+    public float basedamage;
+    public float bulletspeed;
+    public float range;
     private bool fireable = true;
     private Vector3 dir;
     private bool iscooltime = false;
@@ -22,10 +27,98 @@ public class MecMgr : MonoBehaviour
 
     private int firenum = 0;
 
+    private static string[] turretname= {
+        "Turret",
+        "Heavy Turret",
+        "Sniper Turret",
+        "Auto Turret"};
+    public class turretUpgradeInfo {
+       private int maxupgradlevel;
+       public float[] t_attackspeed;
+       public float[] t_basedamage;
+       public float[] t_bulletspeed;
+       public float[] t_range;
+       public int[] t_upgradecost;
+        public turretUpgradeInfo()
+        {
+            maxupgradlevel = 3;
+            t_attackspeed = new float[maxupgradlevel];
+            t_basedamage = new float[maxupgradlevel];
+            t_bulletspeed = new float[maxupgradlevel];
+            t_range = new float[maxupgradlevel];
+            t_upgradecost = new int[maxupgradlevel];
+        }
+        public void setupgradeStats(float sp, float dmg, float btsp, float rg, int curlvl, int cost)
+        {
+            if (maxupgradlevel < 0) return;
+            t_attackspeed[curlvl] = sp;
+            t_basedamage[curlvl] = dmg;
+            t_bulletspeed[curlvl] = btsp;
+            t_range[curlvl] = rg;
+            t_upgradecost[curlvl] = cost;
+        }
+
+        public int getmaxupgradelevel()
+        {
+            return maxupgradlevel;
+        }
+    }
+
     private void Start()
     {
         if (attackarea != null) attackarea.SetActive(false);
+        upgradelevelSM();
+        turretinfo = new turretUpgradeInfo();
+        setturretupgradeStats(mectype, turretinfo);
         StartCoroutine(coupdate());
+    }
+
+    public void turretUpgradeEvent()
+    {
+        if (GameMgr.Instance == null || turretinfo == null) return;
+        GameMgr.Instance.settextCoinUI(-turretinfo.t_upgradecost[upgradelevel]);
+        ++upgradelevel;
+        basedamage = turretinfo.t_basedamage[upgradelevel];
+        bulletspeed = turretinfo.t_bulletspeed[upgradelevel];
+        attackspeed = turretinfo.t_attackspeed[upgradelevel];
+        range = turretinfo.t_range[upgradelevel];
+        upgradelevelSM();
+    }
+
+    private void setturretupgradeStats(int type, turretUpgradeInfo info)
+    {
+        maxupgradelevel = (info.getmaxupgradelevel()-1);
+        if (turretinfo == null) return;
+        // atksp, dmg, btsp, range, curlvl
+        switch (type)
+        {
+            case 1: { //mec1
+                    info.setupgradeStats(2f, 7f, 5f, 10f, 0, 750);
+                    info.setupgradeStats(1.7f, 9f, 7f, 10f, 1, 2500);
+                    info.setupgradeStats(1.3f, 13.5f, 10f, 10f, 2, 4250);
+                    break;
+                }
+            case 2: { //mec2
+                    info.setupgradeStats(0.35f, 3f, 10f, 2f, 0, 3750);
+                    info.setupgradeStats(0.3f, 5f, 12f, 3f, 1, 5350);
+                    info.setupgradeStats(0.2f, 8f, 15f, 4f, 2, 9000);
+                    break;
+                }
+            case 3: { //mec3
+                    info.setupgradeStats(2.5f, 15f, 25f, 35f, 0, 6800);
+                    info.setupgradeStats(2.3f, 25f, 30f, 35f, 1, 9750);
+                    info.setupgradeStats(1.7f, 40f, 40f, 35f, 2, 13000);
+                    break;
+                }
+            case 4: { //mec4
+                    info.setupgradeStats(1.8f, 9f, 12f, 15f, 0, 4700);
+                    info.setupgradeStats(1.6f, 12f, 15f, 15f, 1, 9000);
+                    info.setupgradeStats(1f, 17f, 20f, 15f, 2, 11500);
+                    break;
+                }
+            default:
+                break;
+        }
     }
 
     private IEnumerator coupdate()
@@ -62,6 +155,12 @@ public class MecMgr : MonoBehaviour
         if (stats != null) stats.transform.forward = Camera.main.transform.forward;
     }
 
+    public void upgradelevelSM()
+    {
+        if (upgradelevel >= 2) stats.transform.GetChild(0).GetComponent<TMP_Text>().text = turretname[mectype - 1] + " LV " + "MAX";
+        else stats.transform.GetChild(0).GetComponent<TMP_Text>().text = turretname[mectype - 1] + " LV " + upgradelevel;
+    }
+
 
     IEnumerator coolTime(float t)
     {
@@ -83,6 +182,10 @@ public class MecMgr : MonoBehaviour
     public void setfireable(bool b)
     {
         fireable = b;
+    }
+    public turretUpgradeInfo getturretinfo()
+    {
+        return turretinfo;
     }
 
 }

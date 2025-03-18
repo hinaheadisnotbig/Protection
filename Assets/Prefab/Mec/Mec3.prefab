@@ -266,6 +266,7 @@ MonoBehaviour:
   attackarea: {fileID: 1617046091144810405}
   ball: {fileID: 8894240196486183145, guid: bf8b2820dc590e647b96e4f6c05343ae, type: 3}
   stats: {fileID: 4255306768403653781}
+  upgradelevel: 0
   attackspeed: 2.5
   basedamage: 15
   bulletspeed: 25
@@ -493,7 +494,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Sniper Turret LV 1
+  m_text: Sniper Turret LV 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

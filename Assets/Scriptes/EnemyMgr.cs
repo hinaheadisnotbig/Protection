@@ -17,8 +17,8 @@ public class EnemyMgr : MonoBehaviour
     NavMeshAgent agent;
     Vector3 dir;
 
-    public int maxhealth = 20;
-    public int health = 20;
+    public float maxhealth = 20;
+    public float health = 20;
     public float movspeed = 1.5f;
     public float attackdamage = 10f;
     public int given_money = 200;
@@ -32,9 +32,9 @@ public class EnemyMgr : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         dir = agent.destination;
         agent.speed = movspeed;
-        maxhealth *= (int)(1 +GameMgr.Instance.getmagnific() * (1 + GameMgr.Instance.getstage()/5));
+        maxhealth *= (int)(1 +GameMgr.Instance.getmagnific() * (1 + GameMgr.Instance.getstage()/10));
         health = maxhealth;
-        updateHpbar(health);
+        updateHpbar((int)Mathf.Round(health));
     }
 
     // Update is called once per frame

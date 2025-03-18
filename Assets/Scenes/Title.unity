@@ -1763,7 +1763,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &334969781 stripped
 Transform:
@@ -4479,7 +4479,7 @@ GameObject:
   - component: {fileID: 928515384}
   - component: {fileID: 928515383}
   m_Layer: 5
-  m_Name: FullScreenmode
+  m_Name: FullScreenmode_text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7447,7 +7447,7 @@ GameObject:
   - component: {fileID: 1513634448}
   - component: {fileID: 1513634449}
   m_Layer: 5
-  m_Name: Toggle
+  m_Name: fullscreenmode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7520,7 +7520,19 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1851350194}
+        m_TargetAssemblyTypeName: TitleMgr, Assembly-CSharp
+        m_MethodName: savefullscreenmode
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!1001 &1518261602
 PrefabInstance:
@@ -9269,7 +9281,7 @@ GameObject:
   - component: {fileID: 1742784135}
   - component: {fileID: 1742784134}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: SettingUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9350,8 +9362,8 @@ RectTransform:
   m_Children:
   - {fileID: 1100320087}
   - {fileID: 2103602761}
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_Father: {fileID: 1851350195}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -9764,7 +9776,7 @@ MonoBehaviour:
   obj: {fileID: 995547989}
   SettingUI: {fileID: 1742784133}
   dropdown: {fileID: 1640408917}
-  fullscreenmode: {fileID: 0}
+  fullscreenmode: {fileID: 1513634449}
 --- !u!4 &1851350195
 Transform:
   m_ObjectHideFlags: 0
@@ -9776,7 +9788,8 @@ Transform:
   m_LocalPosition: {x: 1.9683285, y: 0.4419491, z: 1.5509062}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1742784137}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10522,6 +10535,7 @@ MonoBehaviour:
   - {fileID: 7022409653270068133, guid: 762b0b608f9d55b49bd855b921127f59, type: 3}
   - {fileID: 7022409653270068133, guid: 5c9ee7c0577cbd14096bffa9f18a06d3, type: 3}
   - {fileID: 7022409653270068133, guid: bbf99f697cf8ad649af4a541cb0aa377, type: 3}
+  - {fileID: 7022409653270068133, guid: 4fb53d54b2c41cc4686829ff76ed0e34, type: 3}
   enemyspawnloactions:
   - {fileID: 0}
   leftenemy: 0
@@ -11831,7 +11845,7 @@ GameObject:
   - component: {fileID: 2103602763}
   - component: {fileID: 2103602762}
   m_Layer: 5
-  m_Name: SettingUI
+  m_Name: settingui
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

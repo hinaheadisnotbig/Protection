@@ -782,8 +782,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   hpbar: {fileID: 4681016822426196360}
-  maxhealth: 75
-  health: 75
+  maxhealth: 50
+  health: 50
   movspeed: 0.6
   attackdamage: 70
   given_money: 400

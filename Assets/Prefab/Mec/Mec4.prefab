@@ -591,6 +591,7 @@ MonoBehaviour:
   attackarea: {fileID: 3784604854741662337}
   ball: {fileID: 8894240196486183145, guid: 320176619e8c7e24e9d7dbec94bd99d1, type: 3}
   stats: {fileID: 5181649919584849287}
+  upgradelevel: 0
   attackspeed: 1.8
   basedamage: 9
   bulletspeed: 12
@@ -779,7 +780,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Auto Turret LV 1
+  m_text: Auto Turret LV 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

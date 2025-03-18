@@ -7,22 +7,75 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class TitleMgr : MonoBehaviour
-{ 
+{
+    private static TitleMgr instance;
+
     public GameObject obj;
     public GameObject SettingUI;
     public TMP_Dropdown dropdown;
     public Toggle fullscreenmode;
     private GameObject[] settinguis = new GameObject[2];
     private float ang = 0;
+    private bool firstgamestart = false;
+    private bool isingame = false;
 
     private void Awake()
     {
-        if(SettingUI !=null)
+            if (null == instance)
+            {
+                instance = this;
+                DontDestroyOnLoad(gameObject);
+                if (SettingUI != null)
+                {
+                    for (int i = 0; i < settinguis.Length; i++) settinguis[i] = SettingUI.transform.GetChild(i).gameObject;
+                   SettingButton(false);
+                   dropdown.onValueChanged.AddListener(OnDropdownEvent);
+                    SceneManager.sceneLoaded += LoadedsceneEvent;
+                }
+            
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+    }
+
+    private void LoadedsceneEvent(Scene scene, LoadSceneMode mode)
+    {
+        if (SceneManager.GetActiveScene().name.Equals("Title"))
         {
-            for(int i=0; i<settinguis.Length; i++) settinguis[i] = SettingUI.transform.GetChild(i).gameObject;
-            SettingButton(false);
-            dropdown.onValueChanged.AddListener(OnDropdownEvent);
-            // 초기에 게임 해상도 고정
+            if(firstgamestart) gameObject.SetActive(true);
+            unitSM();
+        }
+        else
+        {
+            gameObject.SetActive(false);
+           if(!firstgamestart)  firstgamestart = true;
+        }
+    }
+
+    private void unitSM()
+    {
+        if (obj == null) obj = GameObject.Find("Main Camera").gameObject;
+        isingame = false;
+        SettingButton(false);
+    }
+
+    public IEnumerator ingameSettingSM()
+    {
+        isingame = true;
+        settinguis[0].SetActive(false);
+        settinguis[1].SetActive(false);
+        while (true)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                //SettingButton(true);
+                SceneManager.LoadScene("Title");
+                yield break;
+            }
+            
+            yield return null;
         }
     }
 
@@ -35,7 +88,7 @@ public class TitleMgr : MonoBehaviour
         }
        else if(index == 1)
         {
-            SetResolution(11600, 900);
+            SetResolution(1600, 900);
         }
        else if(index ==2)
         {
@@ -48,6 +101,11 @@ public class TitleMgr : MonoBehaviour
         }
     }
 
+    public void savefullscreenmode()
+    {
+        SetResolution(Screen.width,Screen.height);
+    }
+
     /* 해상도 설정하는 함수 */
     public void SetResolution(int w, int h)
     {
@@ -57,8 +115,8 @@ public class TitleMgr : MonoBehaviour
         //int deviceWidth = Screen.width; // 기기 너비 저장
         //int deviceHeight = Screen.height; // 기기 높이 저장
         bool modeset = fullscreenmode.isOn;
-        if(modeset) Screen.SetResolution(setWidth, setHeight, FullScreenMode.Windowed);
-        else if (!modeset) Screen.SetResolution(setWidth, setHeight, true);
+        if(!modeset) Screen.SetResolution(setWidth, setHeight, FullScreenMode.Windowed);
+        else if (modeset) Screen.SetResolution(setWidth, setHeight, true);
         // Screen.SetResolution(setWidth, (int)(((float)deviceHeight / deviceWidth) * setWidth), true); // SetResolution 함수 제대로 사용하기
 
 
@@ -78,25 +136,28 @@ public class TitleMgr : MonoBehaviour
 
     private void Update()
     {
-        for (int i = 0; i < 100; i++)
+        if (obj != null)
         {
-            obj.transform.rotation = Quaternion.Euler(new Vector3(5, ang, 0));
-            ang += 1f;
-        }
-        for (int i = 0; i < 500; i++)
-        {
-            obj.transform.rotation = Quaternion.Euler(new Vector3(5, ang, 0)); 
-            ang += 0.01f;
-        }
-        for (int i = 0; i < 100; i++)
-        {
-            obj.transform.rotation = Quaternion.Euler(new Vector3(5, ang, 0)); 
-            ang -= 1f;
-        }
-        for (int i = 0; i < 500; i++)
-        {
-            obj.transform.rotation = Quaternion.Euler(new Vector3(5, ang, 0)); 
-            ang -= 0.01f;
+            for (int i = 0; i < 100; i++)
+            {
+                obj.transform.rotation = Quaternion.Euler(new Vector3(5, ang, 0));
+                ang += 1f;
+            }
+            for (int i = 0; i < 500; i++)
+            {
+                obj.transform.rotation = Quaternion.Euler(new Vector3(5, ang, 0));
+                ang += 0.01f;
+            }
+            for (int i = 0; i < 100; i++)
+            {
+                obj.transform.rotation = Quaternion.Euler(new Vector3(5, ang, 0));
+                ang -= 1f;
+            }
+            for (int i = 0; i < 500; i++)
+            {
+                obj.transform.rotation = Quaternion.Euler(new Vector3(5, ang, 0));
+                ang -= 0.01f;
+            }
         }
     }
     public void startButton()
@@ -108,8 +169,17 @@ public class TitleMgr : MonoBehaviour
     {
         if (SettingUI != null)
         {
-            settinguis[0].SetActive(!b);
-            settinguis[1].SetActive(b);
+            if (isingame)
+            {
+                settinguis[0].SetActive(false);
+                settinguis[1].SetActive(b);
+                if (GameMgr.Instance.UI != null)GameMgr.Instance.UI.GetComponent<UIMgr>().setactivemecUI(!b);
+            }
+            else
+            {
+                settinguis[0].SetActive(!b);
+                settinguis[1].SetActive(b);
+            }
         }
 
     }
@@ -120,5 +190,17 @@ public class TitleMgr : MonoBehaviour
         #else
             Application.Quit(); // 어플리케이션 종료
         #endif
+    }
+
+    public static TitleMgr Instance
+    {
+        get
+        {
+            if (null == instance)
+            {
+                return null;
+            }
+            return instance;
+        }
     }
 }

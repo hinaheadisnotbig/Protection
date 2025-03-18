@@ -45,7 +45,7 @@ public class GameMgr : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
             SceneManager.sceneLoaded += LoadedsceneEvent;
-            Screen.SetResolution(1920, 1080, FullScreenMode.Windowed);
+            Screen.SetResolution(1920, 1080, true);
         } else
         {
             Destroy(gameObject);
@@ -89,22 +89,26 @@ public class GameMgr : MonoBehaviour
     IEnumerator GameStart()
     {
         yield return new WaitForSeconds(0.1f);
+        if (TitleMgr.Instance != null)
+        {
+            TitleMgr.Instance.gameObject.SetActive(true);
+            TitleMgr.Instance.StartCoroutine(TitleMgr.Instance.ingameSettingSM());
+        }
         switch (stage)
         {
             case 1: {
                     settextCoinUI(1000);
                     setbasecampUI(200);
                     roundtimer = 30;
-                    leftenemy = 7;
+                    leftenemy = 5;
                     wave = 0;
                     maxwave = 1;
                     magnific = 0.8f;
                     break; }
             case 2:
                 {
-                    settextCoinUI(1000);
                     roundtimer = 15;
-                    leftenemy = 7;
+                    leftenemy = 5;
                     wave = 0;
                     maxwave = 1;
                     magnific = 0.8f;
@@ -112,28 +116,25 @@ public class GameMgr : MonoBehaviour
                 }
             case 3:
                 {
-                    settextCoinUI(2500);
                     roundtimer = 15;
-                    leftenemy = 5;
+                    leftenemy = 7;
                     wave = 0;
-                    maxwave = 2;
+                    maxwave = 1;
                     magnific = 0.8f;
                     break;
                 }
             case 4:
                 {
-                    settextCoinUI(2500);
                     roundtimer = 15;
-                    leftenemy = 10;
+                    leftenemy = 9;
                     wave = 0;
                     maxwave = 1;
-                    magnific = 1f;
+                    magnific = 0.8f;
                     break;
                 }
             default: {
-                    settextCoinUI(1000);
                     roundtimer = 15;
-                    leftenemy = 10;
+                    leftenemy = 9;
                     wave = 0;
                     maxwave = 1;
                     break; }
@@ -175,6 +176,11 @@ public class GameMgr : MonoBehaviour
                 }
                 if (stage >= 8) {
                     enemySpawnSM(4);
+                    yield return new WaitForSeconds(2.6f);
+                }
+                if (stage >= 10)
+                {
+                    enemySpawnSM(5);
                     yield return new WaitForSeconds(2.6f);
                 }
                 yield return null;
@@ -267,6 +273,10 @@ public class GameMgr : MonoBehaviour
 
     public IEnumerator TurretrUpgradeCilckEvent(GameObject my, GameObject turret, GameObject[] gui)
     {
+        bool upgradedisplaymode = false;
+        InfoMgr tr_info = gui[0].GetComponent<InfoMgr>();
+        TurretCalSM tr_cal = gui[1].GetComponent<TurretCalSM>();
+        tr_info.turretgrademode();
         MecMgr mec = turret.GetComponent<MecMgr>();
         mec.stats.SetActive(false);
         if (mec.attackarea != null) mec.attackarea.SetActive(true);
@@ -276,7 +286,13 @@ public class GameMgr : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.F))
             {
-                Debug.Log("¹Ì¿Ï");
+                if (mec.upgradelevel < mec.maxupgradelevel)
+                {
+                    upgradedisplaymode = true;
+                    tr_cal.isupgrademode = true;
+                    tr_cal.updatturretinfo(mec);
+                    end = true;
+                }
             }
             else if (Input.GetMouseButtonDown(0))
             {
@@ -297,6 +313,41 @@ public class GameMgr : MonoBehaviour
             }
             yield return null;
          }
+        if(upgradedisplaymode)
+        {
+            end = false;
+            tr_info.isupgardemode = true;
+            tr_info.turretgrademode();
+            while (!end && isgameview)
+            {
+                if (Input.GetKeyDown(KeyCode.F) && coins >= mec.getturretinfo().t_upgradecost[mec.upgradelevel])
+                {
+                    mec.GetComponent<MecMgr>().turretUpgradeEvent();
+                    for (int i = 0; i < gui.Length; i++) Destroy(gui[i]);
+                    mec.stats.SetActive(true);
+                    if (mec.attackarea != null) mec.attackarea.SetActive(false);
+                    end = true;
+                }
+                else if (Input.GetMouseButtonDown(0))
+                {
+                    for (int i = 0; i < gui.Length; i++) Destroy(gui[i]);
+                    mec.stats.SetActive(true);
+                    if (mec.attackarea != null) mec.attackarea.SetActive(false);
+                    end = true;
+                }
+                else if (Input.GetKeyDown(KeyCode.X))
+                {
+                    Destroy(turret);
+                    for (int i = 0; i < gui.Length; i++) Destroy(gui[i]);
+                    tempsave_mecprice = UI.GetComponent<UIMgr>().getmecprice()[mec.mectype - 1];
+                    tempsave_mecprice = ((tempsave_mecprice * 50) / 100);
+                    refund_turret();
+                    tempsave_mecprice = 0;
+                    end = true;
+                }
+                yield return null;
+            }
+        }
                 mecUI(true);
                 my.SetActive(true);
                 my.GetComponent<SelectMgr>().StartCoroutine(my.GetComponent<SelectMgr>().coupdate());

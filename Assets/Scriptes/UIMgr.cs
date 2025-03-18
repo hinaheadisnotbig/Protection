@@ -96,11 +96,5 @@ public class UIMgr : MonoBehaviour
         return mecprice;
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            SceneManager.LoadScene("Title");
-        }
-    }
+   
 }
