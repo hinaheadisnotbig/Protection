@@ -14,10 +14,11 @@ public class TitleMgr : MonoBehaviour
     public GameObject SettingUI;
     public TMP_Dropdown dropdown;
     public Toggle fullscreenmode;
-    private GameObject[] settinguis = new GameObject[2];
+    private GameObject[] settinguis = new GameObject[3];
     private float ang = 0;
     private bool firstgamestart = false;
     private bool isingame = false;
+    private bool isesckeypressed;
 
     private void Awake()
     {
@@ -29,7 +30,8 @@ public class TitleMgr : MonoBehaviour
                 {
                     for (int i = 0; i < settinguis.Length; i++) settinguis[i] = SettingUI.transform.GetChild(i).gameObject;
                    SettingButton(false);
-                   dropdown.onValueChanged.AddListener(OnDropdownEvent);
+                    settinguis[2].SetActive(false);
+                    dropdown.onValueChanged.AddListener(OnDropdownEvent);
                     SceneManager.sceneLoaded += LoadedsceneEvent;
                 }
             
@@ -45,6 +47,7 @@ public class TitleMgr : MonoBehaviour
         if (SceneManager.GetActiveScene().name.Equals("Title"))
         {
             if(firstgamestart) gameObject.SetActive(true);
+            settinguis[2].SetActive(false);
             unitSM();
         }
         else
@@ -66,16 +69,47 @@ public class TitleMgr : MonoBehaviour
         isingame = true;
         settinguis[0].SetActive(false);
         settinguis[1].SetActive(false);
-        while (true)
-        {
-            if (Input.GetKeyDown(KeyCode.Escape))
+        settinguis[2].SetActive(false);
+        yield return null;
+
+            while (isingame)
             {
-                //SettingButton(true);
-                SceneManager.LoadScene("Title");
-                yield break;
+            if (Input.GetKeyDown(KeyCode.P) && !isesckeypressed) Time.timeScale = 2;
+            else if(Input.GetKeyDown(KeyCode.O) && !isesckeypressed) Time.timeScale = 1;
+            if (Input.GetKeyDown(KeyCode.Escape) && !isesckeypressed)
+                {
+                    Time.timeScale = 0;
+                    setescUI(0);
+                    isesckeypressed = true;
+                }
+
+                yield return null;
             }
-            
-            yield return null;
+        
+    }
+    public void setescUI(int i)
+    {
+        switch(i)
+        {
+            case 0:
+                {
+                    GameMgr.Instance.mecUI(false);
+                    settinguis[2].SetActive(true);
+                    break;
+                }
+            case 1:
+                {
+                    Time.timeScale = 1;
+                    GameMgr.Instance.mecUI(true);
+                    settinguis[2].SetActive(false);
+                    isesckeypressed = false;
+                    break;
+                }
+            case 2:
+                {
+                    break;
+                }
+            default: break;
         }
     }
 
@@ -164,21 +198,35 @@ public class TitleMgr : MonoBehaviour
     {
         SceneManager.LoadScene("SampleScene");
     }
+    public void LobbyButton()
+    {
+        isingame = false;
+        setescUI(1);
+        SceneManager.LoadScene("Title");
+    }
 
     public void SettingButton(bool b)
     {
         if (SettingUI != null)
         {
-            if (isingame)
+            if (isesckeypressed)
             {
-                settinguis[0].SetActive(false);
-                settinguis[1].SetActive(b);
-                if (GameMgr.Instance.UI != null)GameMgr.Instance.UI.GetComponent<UIMgr>().setactivemecUI(!b);
-            }
-            else
+                    settinguis[0].SetActive(false);
+                    settinguis[1].SetActive(b);
+                    settinguis[2].SetActive(!b);
+            } else
             {
-                settinguis[0].SetActive(!b);
-                settinguis[1].SetActive(b);
+                if (isingame)
+                {
+                    settinguis[0].SetActive(false);
+                    settinguis[1].SetActive(b);
+                    if (GameMgr.Instance.UI != null) GameMgr.Instance.UI.GetComponent<UIMgr>().setactivemecUI(!b);
+                }
+                else
+                {
+                    settinguis[0].SetActive(!b);
+                    settinguis[1].SetActive(b);
+                }
             }
         }
 

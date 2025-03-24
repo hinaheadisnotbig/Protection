@@ -27,11 +27,16 @@ public class InfoMgr : MonoBehaviour
             stats.transform.forward = Camera.main.transform.forward;
         }
     }
+    public void apperupgradecost()
+    {
+        upgradeUI[1].gameObject.SetActive(false);
+    }
 
     public void turretgrademode()
     {
         MecMgr mecMgr = install.GetComponent<MecMgr>();
         MecMgr.turretUpgradeInfo info = mecMgr.getturretinfo();
+        upgradeUI[1].gameObject.SetActive(true);
         if(mecMgr.upgradelevel >= mecMgr.maxupgradelevel)
         {
             upgradeUI[0].text = "Turret Upgarde [MAX]";

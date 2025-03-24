@@ -16,6 +16,8 @@ public class GameMgr : MonoBehaviour
     
     private Transform turrets;
     private Transform Enemys;
+    private int turretcount = 0;
+    private int turretcount_max = 10;
 
     public GameObject[] enemy;
     public Transform[] enemyspawnloactions;
@@ -83,7 +85,7 @@ public class GameMgr : MonoBehaviour
         if (enemyspawnloactions[0] == null) enemyspawnloactions[0] = GameObject.Find("Enemy SpawnPlace").transform;
         coins = 0; tempsave_mecprice = 0; roundtimer = 0;
         stage = 1; wave = 0; maxwave = 0; magnific = 1; isinstallmode = false;
-
+        turretcount = 0;
         StartCoroutine(GameStart());
     }
     IEnumerator GameStart()
@@ -103,7 +105,7 @@ public class GameMgr : MonoBehaviour
                     leftenemy = 5;
                     wave = 0;
                     maxwave = 1;
-                    magnific = 0.8f;
+                    magnific = 0.5f;
                     break; }
             case 2:
                 {
@@ -111,7 +113,7 @@ public class GameMgr : MonoBehaviour
                     leftenemy = 5;
                     wave = 0;
                     maxwave = 1;
-                    magnific = 0.8f;
+                    magnific = 0.7f;
                     break;
                 }
             case 3:
@@ -132,9 +134,26 @@ public class GameMgr : MonoBehaviour
                     magnific = 0.8f;
                     break;
                 }
+            case 8:
+                {
+                    roundtimer = 15;
+                    leftenemy = 12;
+                    wave = 0;
+                    maxwave = 1;
+                    magnific = 1f;
+                    break;
+                }
+            case 10:
+                {
+                    roundtimer = 15;
+                    leftenemy = 15;
+                    wave = 0;
+                    maxwave = 1;
+                    magnific = 1.5f;
+                    break;
+                }
             default: {
                     roundtimer = 15;
-                    leftenemy = 9;
                     wave = 0;
                     maxwave = 1;
                     break; }
@@ -173,6 +192,11 @@ public class GameMgr : MonoBehaviour
                 if (stage >= 6) {
                     enemySpawnSM(3);
                     yield return new WaitForSeconds(2.7f);
+                }
+                if (stage >= 7)
+                {
+                    enemySpawnSM(5);
+                    yield return new WaitForSeconds(1.9f);
                 }
                 if (stage >= 8) {
                     enemySpawnSM(4);
@@ -217,7 +241,26 @@ public class GameMgr : MonoBehaviour
         if(UI != null)
         {
             coins += v;
+            if (coins >= 999999) coins = 999999;
             UI.GetComponent<UIMgr>().UpdatetextCoinUI();
+        }
+    }
+    public void settextTurretcountUI(int v)
+    {
+        if (UI == null) UI = GameObject.Find("GameUI");
+        if (UI != null)
+        {
+            turretcount += v;
+            UI.GetComponent<UIMgr>().UpdatetextTurretsUI();
+        }
+    }
+    public void settextTurretcountmaxUI(int v)
+    {
+        if (UI == null) UI = GameObject.Find("GameUI");
+        if (UI != null)
+        {
+            turretcount_max += v;
+            UI.GetComponent<UIMgr>().UpdatetextTurretsUI();
         }
     }
     public void setbasecampUI(int v)
@@ -277,6 +320,7 @@ public class GameMgr : MonoBehaviour
         InfoMgr tr_info = gui[0].GetComponent<InfoMgr>();
         TurretCalSM tr_cal = gui[1].GetComponent<TurretCalSM>();
         tr_info.turretgrademode();
+        tr_info.apperupgradecost();
         MecMgr mec = turret.GetComponent<MecMgr>();
         mec.stats.SetActive(false);
         if (mec.attackarea != null) mec.attackarea.SetActive(true);
@@ -309,6 +353,7 @@ public class GameMgr : MonoBehaviour
                 tempsave_mecprice = ((tempsave_mecprice * 50) / 100);
                 refund_turret();
                 tempsave_mecprice = 0;
+                settextTurretcountUI(-1);
                 end = true;
             }
             yield return null;
@@ -343,6 +388,7 @@ public class GameMgr : MonoBehaviour
                     tempsave_mecprice = ((tempsave_mecprice * 50) / 100);
                     refund_turret();
                     tempsave_mecprice = 0;
+                    settextTurretcountUI(-1);
                     end = true;
                 }
                 yield return null;
@@ -373,6 +419,7 @@ public class GameMgr : MonoBehaviour
     public void refund_turret()
     {
         settextCoinUI(tempsave_mecprice);
+        
     }
     public GameObject[] getgui()
     {
@@ -398,5 +445,13 @@ public class GameMgr : MonoBehaviour
     public int getstage()
     {
         return stage;
+    }
+    public int getturretcount()
+    {
+        return turretcount;
+    }
+    public int getturretcountmax()
+    {
+        return turretcount_max;
     }
 }

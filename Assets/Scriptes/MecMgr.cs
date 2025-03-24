@@ -93,7 +93,7 @@ public class MecMgr : MonoBehaviour
         switch (type)
         {
             case 1: { //mec1
-                    info.setupgradeStats(2f, 7f, 5f, 10f, 0, 750);
+                    info.setupgradeStats(2f, 7f, 5f, 10f, 0, 1700);
                     info.setupgradeStats(1.7f, 9f, 7f, 10f, 1, 2500);
                     info.setupgradeStats(1.3f, 13.5f, 10f, 10f, 2, 4250);
                     break;
@@ -157,7 +157,7 @@ public class MecMgr : MonoBehaviour
 
     public void upgradelevelSM()
     {
-        if (upgradelevel >= 2) stats.transform.GetChild(0).GetComponent<TMP_Text>().text = turretname[mectype - 1] + " LV " + "MAX";
+        if (upgradelevel >= 2) stats.transform.GetChild(0).GetComponent<TMP_Text>().text = turretname[mectype - 1] + " MAX";
         else stats.transform.GetChild(0).GetComponent<TMP_Text>().text = turretname[mectype - 1] + " LV " + upgradelevel;
     }
 

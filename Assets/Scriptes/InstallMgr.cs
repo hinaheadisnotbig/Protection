@@ -55,6 +55,7 @@ public class InstallMgr : MonoBehaviour
                 if (GameMgr.Instance != null) GameMgr.Instance.setisinstallmode(false);
                 GameMgr.Instance.mecUI(true);
                 GameMgr.Instance.settempsave_mecprice(0);
+                GameMgr.Instance.settextTurretcountUI(1);
             }
             else if (Input.GetKeyDown(KeyCode.X) && !isClick || target != null && isClick == false && Input.GetMouseButtonDown(0) && cubeColor.material.color == red)
             {
