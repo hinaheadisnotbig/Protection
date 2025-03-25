@@ -60,4 +60,9 @@ public class CameraMgr : MonoBehaviour
         }
 
     }
+
+    public void movetoSelectedTurret(Transform turret)
+    {
+        transform.position = new Vector3(turret.position.x-0.5f, turret.position.y+8f, turret.position.z-4);
+    }
 }

@@ -39,6 +39,7 @@ public class MecMgr : MonoBehaviour
        public float[] t_bulletspeed;
        public float[] t_range;
        public int[] t_upgradecost;
+       public int t_totalcost;
         public turretUpgradeInfo()
         {
             maxupgradlevel = 3;
@@ -47,6 +48,7 @@ public class MecMgr : MonoBehaviour
             t_bulletspeed = new float[maxupgradlevel];
             t_range = new float[maxupgradlevel];
             t_upgradecost = new int[maxupgradlevel];
+            t_totalcost = 0;
         }
         public void setupgradeStats(float sp, float dmg, float btsp, float rg, int curlvl, int cost)
         {
@@ -77,6 +79,7 @@ public class MecMgr : MonoBehaviour
     {
         if (GameMgr.Instance == null || turretinfo == null) return;
         GameMgr.Instance.settextCoinUI(-turretinfo.t_upgradecost[upgradelevel]);
+        turretinfo.t_totalcost += turretinfo.t_upgradecost[upgradelevel];
         ++upgradelevel;
         basedamage = turretinfo.t_basedamage[upgradelevel];
         bulletspeed = turretinfo.t_bulletspeed[upgradelevel];
@@ -88,32 +91,33 @@ public class MecMgr : MonoBehaviour
     private void setturretupgradeStats(int type, turretUpgradeInfo info)
     {
         maxupgradelevel = (info.getmaxupgradelevel()-1);
+        if(GameMgr.Instance != null) info.t_totalcost = GameMgr.Instance.UI.GetComponent<UIMgr>().getmecprice()[type-1];
         if (turretinfo == null) return;
         // atksp, dmg, btsp, range, curlvl
         switch (type)
         {
             case 1: { //mec1
-                    info.setupgradeStats(2f, 7f, 5f, 10f, 0, 1700);
-                    info.setupgradeStats(1.7f, 9f, 7f, 10f, 1, 2500);
-                    info.setupgradeStats(1.3f, 13.5f, 10f, 10f, 2, 4250);
+                    info.setupgradeStats(2f, 7f, 5f, 10f, 0, 2000);
+                    info.setupgradeStats(1.8f, 9f, 7f, 10f, 1, 3750);
+                    info.setupgradeStats(1.4f, 13.5f, 10f, 10f, 2, 4250);
                     break;
                 }
             case 2: { //mec2
-                    info.setupgradeStats(0.35f, 3f, 10f, 2f, 0, 3750);
-                    info.setupgradeStats(0.3f, 5f, 12f, 3f, 1, 5350);
-                    info.setupgradeStats(0.2f, 8f, 15f, 4f, 2, 9000);
+                    info.setupgradeStats(0.5f, 3f, 10f, 2f, 0, 4750);
+                    info.setupgradeStats(0.45f, 4f, 11f, 3f, 1, 9350);
+                    info.setupgradeStats(0.35f, 5f, 13f, 4f, 2, 12000);
                     break;
                 }
             case 3: { //mec3
-                    info.setupgradeStats(2.5f, 15f, 25f, 35f, 0, 6800);
-                    info.setupgradeStats(2.3f, 25f, 30f, 35f, 1, 9750);
-                    info.setupgradeStats(1.7f, 40f, 40f, 35f, 2, 13000);
+                    info.setupgradeStats(2.5f, 15f, 25f, 35f, 0, 7800);
+                    info.setupgradeStats(2.3f, 25f, 30f, 35f, 1, 10750);
+                    info.setupgradeStats(1.7f, 45f, 40f, 35f, 2, 13000);
                     break;
                 }
             case 4: { //mec4
-                    info.setupgradeStats(1.8f, 9f, 12f, 15f, 0, 4700);
-                    info.setupgradeStats(1.6f, 12f, 15f, 15f, 1, 9000);
-                    info.setupgradeStats(1f, 17f, 20f, 15f, 2, 11500);
+                    info.setupgradeStats(1.8f, 9f, 12f, 15f, 0, 8500);
+                    info.setupgradeStats(1.6f, 12f, 15f, 15f, 1, 11500);
+                    info.setupgradeStats(1.2f, 18f, 20f, 15f, 2, 12500);
                     break;
                 }
             default:

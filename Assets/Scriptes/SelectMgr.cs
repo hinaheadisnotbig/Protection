@@ -8,6 +8,7 @@ public class SelectMgr : MonoBehaviour
 {
     public GameObject[] turret_info = new GameObject[2];
     public LayerMask turretmask;
+    public GameObject maincamera;
     private GameObject target;
     private GameObject SelectedTurret;
     private bool isClick = false;
@@ -43,6 +44,7 @@ public class SelectMgr : MonoBehaviour
 
                     }
                     GameMgr.Instance.StartCoroutine(GameMgr.Instance.TurretrUpgradeCilckEvent(gameObject, SelectedTurret, gui));
+                    maincamera.GetComponent<CameraMgr>().movetoSelectedTurret(SelectedTurret.transform);
                     SelectedTurret = null;
                     gameObject.SetActive(false);
                 }

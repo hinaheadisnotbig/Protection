@@ -53,17 +53,17 @@ public class InstallMgr : MonoBehaviour
                 Destroy(target);
                 for(int i=0; i<GameMgr.Instance.getgui().Length; i++) Destroy(GameMgr.Instance.getgui()[i]);
                 if (GameMgr.Instance != null) GameMgr.Instance.setisinstallmode(false);
-                GameMgr.Instance.mecUI(true);
+                if(Time.timeScale != 0) GameMgr.Instance.mecUI(true);
                 GameMgr.Instance.settempsave_mecprice(0);
                 GameMgr.Instance.settextTurretcountUI(1);
             }
-            else if (Input.GetKeyDown(KeyCode.X) && !isClick || target != null && isClick == false && Input.GetMouseButtonDown(0) && cubeColor.material.color == red)
+            else if (Input.GetKeyDown(KeyCode.X) && !isClick || target != null && isClick == false && Input.GetMouseButtonDown(0) && cubeColor.material.color == red || Time.timeScale == 0)
             {
                 isClick = true;
                 Destroy(target);
                 for (int i = 0; i < GameMgr.Instance.getgui().Length; i++) Destroy(GameMgr.Instance.getgui()[i]);
                 if (GameMgr.Instance != null) GameMgr.Instance.setisinstallmode(false);
-                GameMgr.Instance.mecUI(true);
+                if(Time.timeScale != 0) GameMgr.Instance.mecUI(true);
                 GameMgr.Instance.refund_turret();
                 GameMgr.Instance.settempsave_mecprice(0);
             }

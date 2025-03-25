@@ -74,8 +74,7 @@ public class TitleMgr : MonoBehaviour
 
             while (isingame)
             {
-            if (Input.GetKeyDown(KeyCode.P) && !isesckeypressed) Time.timeScale = 2;
-            else if(Input.GetKeyDown(KeyCode.O) && !isesckeypressed) Time.timeScale = 1;
+            
             if (Input.GetKeyDown(KeyCode.Escape) && !isesckeypressed)
                 {
                     Time.timeScale = 0;
@@ -99,7 +98,7 @@ public class TitleMgr : MonoBehaviour
                 }
             case 1:
                 {
-                    Time.timeScale = 1;
+                    Time.timeScale = GameMgr.Instance.getfastsetmode();
                     GameMgr.Instance.mecUI(true);
                     settinguis[2].SetActive(false);
                     isesckeypressed = false;

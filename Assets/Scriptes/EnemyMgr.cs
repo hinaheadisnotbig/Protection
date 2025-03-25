@@ -32,7 +32,7 @@ public class EnemyMgr : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         dir = agent.destination;
         agent.speed = movspeed;
-        maxhealth *= (int)(1 +GameMgr.Instance.getmagnific() * (1 + GameMgr.Instance.getstage()/6));
+        maxhealth *= (int)(1 +GameMgr.Instance.getmagnific() * (1 + GameMgr.Instance.getstage()/7));
         health = maxhealth;
         updateHpbar((int)Mathf.Round(health));
     }

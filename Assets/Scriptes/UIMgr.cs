@@ -34,6 +34,7 @@ public class UIMgr : MonoBehaviour
     private GameObject mecpanel;
     private TMP_Text txt;
     private TMP_Text turretcounttxt;
+    private TMP_Text fastmodetxt;
     private Color gray;
     private Color white;
     private TMP_Text[] btnprice_txt;
@@ -50,6 +51,7 @@ public class UIMgr : MonoBehaviour
         for (int i = 0; i < upgradeui_btn.Length; i++) upgradeui_btn[i] = Baseshop.transform.GetChild(i).GetChild(0).gameObject.GetComponent<Image>();
         txt = transform.GetChild(0).GetChild(0).gameObject.GetComponent<TMP_Text>();
         turretcounttxt = transform.GetChild(0).GetChild(1).gameObject.GetComponent<TMP_Text>();
+        fastmodetxt = transform.GetChild(0).GetChild(2).GetChild(0).gameObject.GetComponent<TMP_Text>();
         for (int i = 0; i < UI_basecamp.Length; i++) UI_basecamp[i] = transform.GetChild(1).GetChild(0).GetChild(i+1).gameObject;
         btnprice_txt = new TMP_Text[mecprice.Length];
         upgradeui_btnprice_txt = new TMP_Text[upgradeuiprice.Length];
@@ -115,6 +117,33 @@ public class UIMgr : MonoBehaviour
     {
         if (GameMgr.Instance == null) return;
         turretcounttxt.text = "Turrets : " + GameMgr.Instance.getturretcount() + "/" + GameMgr.Instance.getturretcountmax();
+    }
+    public void UpdateFastModeUI()
+    {
+        GameMgr.Instance.setfastsetmode(GameMgr.Instance.getfastsetmode()+1);
+        if (GameMgr.Instance == null) return;
+        if(GameMgr.Instance.getfastsetmode()> 3) GameMgr.Instance.setfastsetmode(1);
+        Time.timeScale = GameMgr.Instance.getfastsetmode();
+        switch (GameMgr.Instance.getfastsetmode()) {
+            case 3:
+                {
+                    fastmodetxt.text = ">>>";
+                    break;
+                }
+            case 2:
+                {
+                    fastmodetxt.text = ">>";
+                    break;
+                }
+            case 1: {
+                    fastmodetxt.text = ">";
+                    break;
+               }
+            default: {
+                    fastmodetxt.text = "404";
+                    break;
+                }
+         }
     }
 
     public void setactivemecUI(bool b)

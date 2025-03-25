@@ -27,6 +27,7 @@ public class GameMgr : MonoBehaviour
     [SerializeField]
     private int coins = 0;
     private int tempsave_mecprice = 0;
+    private int fastsetmode = 1;
 
 
     private bool isinstallmode = false;
@@ -86,6 +87,8 @@ public class GameMgr : MonoBehaviour
         coins = 0; tempsave_mecprice = 0; roundtimer = 0;
         stage = 1; wave = 0; maxwave = 0; magnific = 1; isinstallmode = false;
         turretcount = 0;
+        fastsetmode = 1;
+        Time.timeScale = fastsetmode;
         StartCoroutine(GameStart());
     }
     IEnumerator GameStart()
@@ -140,7 +143,7 @@ public class GameMgr : MonoBehaviour
                     leftenemy = 12;
                     wave = 0;
                     maxwave = 1;
-                    magnific = 1f;
+                    magnific = 0.9f;
                     break;
                 }
             case 10:
@@ -149,11 +152,12 @@ public class GameMgr : MonoBehaviour
                     leftenemy = 15;
                     wave = 0;
                     maxwave = 1;
-                    magnific = 1.5f;
+                    magnific = 1.25f;
                     break;
                 }
             default: {
                     roundtimer = 15;
+                    leftenemy = 10;
                     wave = 0;
                     maxwave = 1;
                     break; }
@@ -193,18 +197,18 @@ public class GameMgr : MonoBehaviour
                     enemySpawnSM(3);
                     yield return new WaitForSeconds(2.7f);
                 }
-                if (stage >= 7)
+                if (stage >= 8)
                 {
-                    enemySpawnSM(5);
+                    enemySpawnSM(4);
                     yield return new WaitForSeconds(1.9f);
                 }
-                if (stage >= 8) {
-                    enemySpawnSM(4);
+                if (stage >= 10) {
+                    enemySpawnSM(5);
                     yield return new WaitForSeconds(2.6f);
                 }
-                if (stage >= 10)
+                if (stage >= 12)
                 {
-                    enemySpawnSM(5);
+                    enemySpawnSM(6);
                     yield return new WaitForSeconds(2.6f);
                 }
                 yield return null;
@@ -282,7 +286,7 @@ public class GameMgr : MonoBehaviour
         if (UI == null) UI = GameObject.Find("GameUI");
         if (UI != null)
         {
-            UI.GetComponent<UIMgr>().setactivemecUI(b);
+          UI.GetComponent<UIMgr>().setactivemecUI(b);
         }
     }
     public void getbaseDamageMgr(GameObject my, GameObject basecamp)
@@ -317,6 +321,7 @@ public class GameMgr : MonoBehaviour
     public IEnumerator TurretrUpgradeCilckEvent(GameObject my, GameObject turret, GameObject[] gui)
     {
         bool upgradedisplaymode = false;
+        bool refundisplaymode = false;
         InfoMgr tr_info = gui[0].GetComponent<InfoMgr>();
         TurretCalSM tr_cal = gui[1].GetComponent<TurretCalSM>();
         tr_info.turretgrademode();
@@ -338,7 +343,7 @@ public class GameMgr : MonoBehaviour
                     end = true;
                 }
             }
-            else if (Input.GetMouseButtonDown(0))
+            else if (Input.GetMouseButtonDown(0) || Time.timeScale == 0)
             {
                 for(int i=0; i<gui.Length; i++) Destroy(gui[i]);
                 mec.stats.SetActive(true);
@@ -347,13 +352,7 @@ public class GameMgr : MonoBehaviour
             }
             else if (Input.GetKeyDown(KeyCode.X))
             {
-                Destroy(turret);
-                for (int i = 0; i < gui.Length; i++) Destroy(gui[i]);
-                tempsave_mecprice = UI.GetComponent<UIMgr>().getmecprice()[mec.mectype - 1];
-                tempsave_mecprice = ((tempsave_mecprice * 50) / 100);
-                refund_turret();
-                tempsave_mecprice = 0;
-                settextTurretcountUI(-1);
+                refundisplaymode = true;
                 end = true;
             }
             yield return null;
@@ -380,11 +379,27 @@ public class GameMgr : MonoBehaviour
                     if (mec.attackarea != null) mec.attackarea.SetActive(false);
                     end = true;
                 }
+                yield return null;
+            }
+        }
+        else if (refundisplaymode) {
+            end = false;
+            tr_info.isrefundmode = true;
+            tr_info.turretgrademode();
+            while (!end && isgameview)
+            {
+                if (Input.GetMouseButtonDown(0))
+                {
+                    for (int i = 0; i < gui.Length; i++) Destroy(gui[i]);
+                    mec.stats.SetActive(true);
+                    if (mec.attackarea != null) mec.attackarea.SetActive(false);
+                    end = true;
+                }
                 else if (Input.GetKeyDown(KeyCode.X))
                 {
+                    tempsave_mecprice = mec.getturretinfo().t_totalcost;
                     Destroy(turret);
                     for (int i = 0; i < gui.Length; i++) Destroy(gui[i]);
-                    tempsave_mecprice = UI.GetComponent<UIMgr>().getmecprice()[mec.mectype - 1];
                     tempsave_mecprice = ((tempsave_mecprice * 50) / 100);
                     refund_turret();
                     tempsave_mecprice = 0;
@@ -394,7 +409,7 @@ public class GameMgr : MonoBehaviour
                 yield return null;
             }
         }
-                mecUI(true);
+        if (Time.timeScale != 0) mecUI(true);
                 my.SetActive(true);
                 my.GetComponent<SelectMgr>().StartCoroutine(my.GetComponent<SelectMgr>().coupdate());
     }
@@ -453,5 +468,13 @@ public class GameMgr : MonoBehaviour
     public int getturretcountmax()
     {
         return turretcount_max;
+    }
+    public int getfastsetmode()
+    {
+        return fastsetmode;
+    }
+    public void setfastsetmode(int i)
+    {
+        fastsetmode = i;
     }
 }
